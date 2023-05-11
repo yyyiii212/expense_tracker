@@ -10,6 +10,12 @@ export default {
     }
     , data() {
         return {
+            status: {
+                balance: parseInt(localStorage.getItem("balance")),
+                income: parseInt(localStorage.getItem("income")),
+                expense: -parseInt(localStorage.getItem("expense"))
+            },
+            account: localStorage.getItem("account"),
             delIsShow: false,
             num: 0,
             isTrue: false,
@@ -47,9 +53,16 @@ export default {
                     vm.modaInfo.push({ text: sourceData.text, amount: sourceData.amount });
                 } else {
                     vm.modaInfo.push({ text: sourceData.text, amount: sourceData.amount });
-
                 }
             }
+            // vm.modaInfo.forEach(function (arr) {
+            if (parseInt(sourceData.amount) >= 0) {
+                vm.status.income += parseInt(sourceData.amount);
+            } else {
+                vm.status.expense += parseInt(sourceData.amount);
+            }
+            // })
+            vm.status.balance = parseInt(vm.status.income) + parseInt(vm.status.expense);
 
         },
         deleteModaInfo(sourceData) {
@@ -61,6 +74,8 @@ export default {
 
         }
     },
+    mounted() {
+    },
 }
 </script>
 <template>
@@ -69,10 +84,10 @@ export default {
             <div class="page1-content">
                 <p>Expense Tracker</p>
                 <div class="page1-content-1">
-                    <p>Kouhei</p>
+                    <p>{{ account }}</p>
                     <div class="balance">
                         <p>Your Balance</p>
-                        <p>$3,600</p>
+                        <p>${{ status.balance }}</p>
                     </div>
                 </div>
             </div>
@@ -81,18 +96,18 @@ export default {
             <div class="page2-1">
                 <div class="income">
                     <p>INCOME</p>
-                    <p>7,800</p>
+                    <p>${{ status.income }}</p>
                 </div>
                 <div class="expense">
                     <p>EXPENSE</p>
-                    <p>3,800</p>
+                    <p>${{ status.expense }}</p>
                 </div>
             </div>
             <div class="page2-2">
                 <button id="add" type="button" @click="change">Add transaction</button>
                 <button id="del" type="button" @click="delChange">Delete transaction</button>
-                <Popup v-show="isShow" @keydown.esc="onEsc" @emitpush="getPush" @switch="change"
-                    :sourceData.text="modaInfo.text" :sourceData.amount="modaInfo.amount" />
+                <Popup v-show="isShow" @emitpush="getPush" @switch="change" :sourceData.text="modaInfo.text"
+                    :sourceData.amount="modaInfo.amount" />
                 <DelPopup v-show="delIsShow" @delemitpush="deleteModaInfo" @delswitch="delChange" />
             </div>
             <div class="page2-3">
@@ -133,6 +148,7 @@ export default {
 
             .balance {
                 padding-top: 30px;
+                font-size: 36px;
             }
         }
     }
@@ -148,6 +164,16 @@ export default {
             justify-content: space-evenly;
             padding-top: 80px;
             font-weight: bold;
+
+            .income {
+                font-size: 28px;
+                color: rgb(77, 201, 129);
+            }
+
+            .expense {
+                font-size: 28px;
+                color: red;
+            }
         }
 
         .page2-2 {

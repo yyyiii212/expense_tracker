@@ -4,13 +4,30 @@ import { RouterLink, RouterView } from 'vue-router'
 export default {
   data() {
     return {
-
+      status: {
+        balance: null,
+        income: null,
+        expense: null
+      },
+      account: null,
+      password: null,
 
     }
   },
   methods: {
     toPage() {
       this.$router.push('/page');
+      this.setStorage();
+    },
+    setStorage() {
+      localStorage.setItem("account", this.account)
+      localStorage.setItem("password", this.password)
+
+    },
+    setStatus() {
+      localStorage.setItem("balance", 2000)
+      localStorage.setItem("income", 4000)
+      localStorage.setItem("expense", 2000)
     }
   },
 }
@@ -20,14 +37,18 @@ export default {
   <div class="home-view">
     <h2>Expense Tracker</h2>
     <div class="information">
-      <p>Account : </p><input type="text" placeholder="placeholder">
-      <p>Password :</p> <input type="password" placeholder="placeholder">
+      <p>Account : </p><input id="account" type="text" placeholder="placeholder" v-model="account">
+      <p>Password :</p> <input id="password" type="password" placeholder="placeholder" v-model="password">
     </div>
+
+    <!-- btn area -->
     <div class="btn-class">
-      <button id="sign-up" type="button" @click="toPage">
-        <RouterLink to="/page">Sign Up</RouterLink>
+      <button id="sign-up" type="button">Sign Up
       </button>
-      <button id="log-in" type="button">Log In</button>
+      <button id="log-in" type="button" @click="toPage">
+        <RouterLink to="/page" @click="setStatus">Log In
+        </RouterLink>
+      </button>
     </div>
   </div>
 </template>
@@ -78,14 +99,7 @@ export default {
       border-radius: 20px;
       transition: 0.3s;
 
-      a {
-        color: #fff;
-        text-decoration: none;
 
-        &:active {
-          scale: 0.95%;
-        }
-      }
     }
 
 
@@ -101,8 +115,13 @@ export default {
     #log-in {
       background-color: rgb(99, 133, 219);
 
-      &:active {
-        scale: 0.95%;
+      a {
+        color: #fff;
+        text-decoration: none;
+
+        &:active {
+          scale: 0.95%;
+        }
       }
     }
   }

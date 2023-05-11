@@ -1,19 +1,25 @@
-<script setup>
-// import { RouterLink, RouterView } from 'vue-router'
-import HomeView from './views/HomeView.vue';
-import Page from './views/Page.vue';
+<script >
+// export default {
+//   data() {
+//     return {
+//       balance: null,
+//       income: null,
+//       expense: null
+//     }
+//   }, methods: {
+//     setStatus() {
+//       this.balance = status.balance;
+//       this.income = status.income;
+//       this.expense = status.expense;
+//     }
+//   },
+// }
 </script>
 
 <template>
-  <!-- <header> -->
   <div class="wrapper">
-    <!-- <nav> -->
-    <!-- <RouterLink to="/">Home</RouterLink> -->
-    <!-- </nav> -->
-    <!-- <HomeView /> -->
-    <!-- <RouterLink to="/page">Page</RouterLink> -->
+
   </div>
-  <!-- </header> -->
 
   <RouterView />
 </template>
